@@ -14,8 +14,9 @@ const RegisterPage = (props) => {
   const onEmailHandler = (e) => {
     setEmail(e.currentTarget.value);
   };
-  const onFirstNameNameHandler = (e) => {
-    setFirstName(e.currentTarget.value);
+  // username
+  const onUserNameNameHandler = (e) => {
+    setUserName(e.currentTarget.value);
   };
   const onPasswordHandler = (e) => {
     setPassword(e.currentTarget.value);
@@ -29,7 +30,7 @@ const RegisterPage = (props) => {
 
     let body = {
       email: Email,
-      firstname: FirstName,
+      username: UserName,
       password: Password,
     };
 
@@ -39,6 +40,15 @@ const RegisterPage = (props) => {
 
     // if don't use Redux, use Axios for examble..=>
     // Axios.post('/api/users/register', body)
+    dispatch(
+      registerUser(body).then((res) => {
+        if (res.payload.success) {
+          props.history.push("/login");
+        } else {
+          alert("Failed to register");
+        }
+      })
+    );
   };
   return (
     <div
@@ -59,6 +69,7 @@ const RegisterPage = (props) => {
       >
         <label>Email</label>
         <input type="email" value={Email} onChange={onEmailHandler} />
+
         <label>First Name</label>
         <input
           type="text"
